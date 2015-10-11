@@ -16,6 +16,8 @@ VOLUME /work
 
 USER se202
 ENV PATH /home/se202/se202/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV LANG en_US
+ENV LC_ALL en_US.UTF-8
 RUN cd $HOME && virtualenv -p python3.4 se202
 RUN pip install --upgrade pip && pip install grako ply
 WORKDIR /work
