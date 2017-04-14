@@ -1,9 +1,10 @@
-FROM debian:jessie
+FROM ubuntu:zesty
 MAINTAINER Samuel Tardieu, sam@rfc1149.net
 
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
-    apt-get -y install python3.4 python3-pip autoconf automake build-essential wget bison flex texinfo virtualenv curl
+    apt-get -y install python3.6 python3-pip autoconf automake build-essential wget bison flex texinfo virtualenv curl \
+        qemu-system-arm gcc-arm-none-eabi
 RUN ln -s python3 /usr/bin/python && ln -s pip3 /usr/bin/pip
 RUN pip install --upgrade pip && pip install grako ply
 
