@@ -8,3 +8,4 @@ RUN apt-get --no-install-recommends -y install \
       build-essential ca-certificates clang-4.0 g++-7 \
       ccache autoconf automake libboost-all-dev \
       flex bison valgrind llvm-4.0-dev
+ENV PATH="/usr/lib/llvm-4.0/bin:$PATH"
