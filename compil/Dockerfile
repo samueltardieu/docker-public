@@ -7,4 +7,4 @@ RUN apt-get -y dist-upgrade
 RUN apt-get --no-install-recommends -y install \
       build-essential ca-certificates clang g++ \
       ccache autoconf automake libboost-all-dev \
-      flex bison valgrind
+      flex bison valgrind llvm-4.0-dev
