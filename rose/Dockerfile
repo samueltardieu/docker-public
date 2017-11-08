@@ -36,8 +36,8 @@ RUN curl https://sh.rustup.rs -sSf |  sh -s -- --default-toolchain stable -y
 ENV PATH=/root/.cargo/bin:$PATH
 
 # Install Android SDK
-ENV ANDROID_API_LEVELS=android-25 \
-    ANDROID_BUILD_TOOLS_VERSION=25.2.4 \
+ENV ANDROID_API_LEVELS=android-26 \
+    ANDROID_BUILD_TOOLS_VERSION=26.0.2 \
     ANDROID_HOME=/opt/android-sdk-linux
 ENV PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 RUN cd /opt && \
@@ -47,6 +47,3 @@ RUN cd /opt && \
     unzip ../tools_r${ANDROID_BUILD_TOOLS_VERSION}-linux.zip && \
     rm ../tools_r${ANDROID_BUILD_TOOLS_VERSION}-linux.zip
 RUN echo y | android update sdk --no-ui -a --filter platform-tools,${ANDROID_API_LEVELS},extra-android-support,extra-android-m2repository,extra-google-m2repository
-
-# For BreathUp
-RUN echo y | android update sdk --no-ui -a --filter build-tools-25.0.0,android-22
