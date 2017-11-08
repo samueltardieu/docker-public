@@ -21,7 +21,8 @@ RUN apt-get --no-install-recommends -y install \
       libstdc++-arm-none-eabi-newlib \
       libnewlib-arm-none-eabi ccache arduino-mk autoconf automake libmysqlcppconn-dev virtualenv \
       unzip libpq-dev python3-dev postgresql-9.4 sudo \
-      oracle-java8-installer oracle-java8-set-default && \
+      oracle-java8-installer oracle-java8-set-default \
+      python3-pip python3-pep8 python3-pyqt4 && \
     rm -rf /var/cache/oracle-jdk8-installer
 
 # Build Criterion
