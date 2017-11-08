@@ -25,6 +25,9 @@ RUN apt-get --no-install-recommends -y install \
       python3-pip python3-pep8 python3-pyqt4 && \
     rm -rf /var/cache/oracle-jdk8-installer
 
+RUN ln -s /usr/bin/clang-format-3.5 /usr/bin/clang-format
+RUN ln -s /usr/bin/clang-format-diff-3.5 /usr/bin/clang-format-diff
+
 # Build Criterion
 RUN (cd /tmp && git clone https://github.com/Snaipe/Criterion && \
   cd Criterion && git submodule update --init && mkdir build && cd build && \
