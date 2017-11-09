@@ -1,13 +1,14 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Samuel Tardieu <sam@rfc1149.net>
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add backports and testing
-RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
+RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list
 RUN echo "deb http://ftp.debian.org/debian testing main" >> /etc/apt/sources.list
 ADD testing.pref /etc/apt/preferences.d/
 
 # Add Java 8 download environment
+RUN apt-get -qq update && apt-get -y install gnupg2
 ADD webupd8team-java.list /etc/apt/sources.list.d/
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
@@ -16,17 +17,14 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
 RUN apt-get -qq update
 RUN apt-get -y dist-upgrade
 RUN apt-get --no-install-recommends -y install \
-      build-essential ca-certificates clang clang-format-3.5 cmake curl git g++ python \
-      gcc-arm-none-eabi/jessie-backports binutils-arm-none-eabi/testing gdb-arm-none-eabi \
+      build-essential ca-certificates clang clang-format cmake curl git g++ python \
+      gcc-arm-none-eabi binutils-arm-none-eabi gdb-arm-none-eabi \
       libstdc++-arm-none-eabi-newlib \
       libnewlib-arm-none-eabi ccache arduino-mk autoconf automake libmysqlcppconn-dev virtualenv \
-      unzip libpq-dev python3-dev postgresql-9.4 sudo \
+      unzip libpq-dev python3-dev postgresql sudo \
       oracle-java8-installer oracle-java8-set-default \
       python3-pip python3-pep8 python3-pyqt4 && \
     rm -rf /var/cache/oracle-jdk8-installer
-
-RUN ln -s /usr/bin/clang-format-3.5 /usr/bin/clang-format
-RUN ln -s /usr/bin/clang-format-diff-3.5 /usr/bin/clang-format-diff
 
 # Build Criterion
 RUN (cd /tmp && git clone https://github.com/Snaipe/Criterion && \
@@ -41,12 +39,13 @@ ENV PATH=/root/.cargo/bin:$PATH
 # Install Android SDK
 ENV ANDROID_API_LEVELS=android-26 \
     ANDROID_BUILD_TOOLS_VERSION=26.0.2 \
+    ANDROID_BUILD_TOOLS_BOOTSTRAP_VERSION=25.2.4 \
     ANDROID_HOME=/opt/android-sdk-linux
 ENV PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 RUN cd /opt && \
-    wget -q https://dl.google.com/android/repository/tools_r${ANDROID_BUILD_TOOLS_VERSION}-linux.zip && \
+    wget -q https://dl.google.com/android/repository/tools_r${ANDROID_BUILD_TOOLS_BOOTSTRAP_VERSION}-linux.zip && \
     mkdir android-sdk-linux && \
     cd android-sdk-linux && \
-    unzip ../tools_r${ANDROID_BUILD_TOOLS_VERSION}-linux.zip && \
-    rm ../tools_r${ANDROID_BUILD_TOOLS_VERSION}-linux.zip
-RUN echo y | android update sdk --no-ui -a --filter platform-tools,${ANDROID_API_LEVELS},extra-android-support,extra-android-m2repository,extra-google-m2repository
+    unzip ../tools_r${ANDROID_BUILD_TOOLS_BOOTSTRAP_VERSION}-linux.zip && \
+    rm ../tools_r${ANDROID_BUILD_TOOLS_BOOTSTRAP_VERSION}-linux.zip
+RUN echo y | android update sdk --no-ui -a --filter platform-tools,${ANDROID_API_LEVELS},extra-android-support,extra-android-m2repository,extra-google-m2repository,build-tools
