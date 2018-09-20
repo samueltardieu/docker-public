@@ -8,5 +8,5 @@ RUN apt-get --no-install-recommends -y install \
       build-essential ca-certificates clang-3.9 g++ \
       ccache autoconf automake libboost-all-dev \
       flex bison valgrind llvm-3.9-dev \
-      clang-format-3.9 python3-yaml libtool
+      clang-format-3.9 python3-yaml libtool zlib1g-dev
 ENV PATH="/usr/lib/llvm-3.9/bin:$PATH"
